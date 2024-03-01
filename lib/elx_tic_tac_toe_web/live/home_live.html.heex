@@ -1,1 +1,11 @@
-<h1> Welcome to Tic Tac Tow LiveView page </h1>
+<h1 class="mt-2 flex items-center text-lg font-semibold leading-6">
+  Welcome to Tic Tac Tow Game!
+</h1>
+
+<div class="bt mt-10">
+  <.form :let={f} for={@changeset} phx-change="validate" phx-submit="submit_game">
+    <.input type="text" field={f[:player_name]} label="Player Name" /> 
+    <.input type="text" field={f[:game_code]} label="Game Code" />
+    <.button class="mt-2">Create or Join Game</.button>
+  </.form>
+</div>
