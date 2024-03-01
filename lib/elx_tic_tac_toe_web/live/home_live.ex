@@ -8,10 +8,14 @@ defmodule ElxTicTacToeWeb.HomeLive do
   end
 
   def handle_event("validate", %{"game_starter" => params}, socket) do
-    {:noreply, assign(socket, changeset: GameStarter.changeset_on_start(params))}
+    changeset =
+      GameStarter.changeset_on_start(params)
+      |> Map.put(:action, :validate) # This makes the validation errors to be shown in the form
+
+    {:noreply, assign(socket, changeset: changeset)}
   end
 
-  def handle_event("submit_game",  %{"game_starter" => params}, socket) do
+  def handle_event("submit_game", %{"game_starter" => params}, socket) do
     changeset = GameStarter.changeset_on_creation(params)
 
     {:noreply, assign(socket, changeset: changeset)}
