@@ -19,7 +19,7 @@ defmodule ElxTicTacToe.MixProject do
   def application do
     [
       mod: {ElxTicTacToe.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :observer, :wx]
     ]
   end
 
@@ -48,7 +48,8 @@ defmodule ElxTicTacToe.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:phoenix_ecto, "~> 4.0"},
-      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:horde, "~> 0.8.5"}
     ]
   end
 

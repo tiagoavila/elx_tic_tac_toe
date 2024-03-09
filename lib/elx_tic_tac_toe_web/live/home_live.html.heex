@@ -4,7 +4,7 @@
 
 <div class="bt mt-10">
   <.simple_form :let={f} for={@changeset} phx-change="validate" phx-submit="submit_game">
-    <.input type="text" field={f[:player_name]} label="Player Name" /> 
+    <.input type="text" field={f[:player_name]} label="Player Name" />
     <.input type="text" field={f[:game_code]} label="Game Code" />
     <.button class="mt-2">Create or Join Game</.button>
   </.simple_form>

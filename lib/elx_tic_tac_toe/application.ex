@@ -14,6 +14,9 @@ defmodule ElxTicTacToe.Application do
       {Phoenix.PubSub, name: ElxTicTacToe.PubSub},
       # Start Finch
       {Finch, name: ElxTicTacToe.Finch},
+      {Horde.Registry, [name: ElxTicTacToe.GameRegistry, keys: :unique]},
+      {Horde.DynamicSupervisor,
+       [name: ElxTicTacToe.DistributedSupervisor, strategy: :one_for_one]},
       # Start the Endpoint (http/https)
       ElxTicTacToeWeb.Endpoint
       # Start a worker by calling: ElxTicTacToe.Worker.start_link(arg)
