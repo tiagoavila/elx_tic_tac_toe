@@ -168,6 +168,8 @@ defmodule ElxTicTacToe.GameServer do
   end
 
   def server_running?(game_code) do
+    game_code = String.upcase(game_code)
+
     case Horde.Registry.lookup(ElxTicTacToe.GameRegistry, game_code) do
       [{pid, _}] -> Process.alive?(pid)
       _ -> false

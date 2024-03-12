@@ -11,7 +11,7 @@ defmodule ElxTicTacToe.Player do
   @primary_key {:id, :binary_id, autogenerate: true}
   embedded_schema do
     field(:player_name, :string)
-    field(:letter, Ecto.Enum, values: [:X, :O])
+    field(:letter, Ecto.Enum, values: [:X, :O], default: :X)
   end
 
   def changeset(params \\ %{}) do
@@ -19,7 +19,6 @@ defmodule ElxTicTacToe.Player do
     |> cast(params, [:player_name, :letter])
     |> validate_required([:player_name])
     |> validate_length(:player_name, max: 15)
-    |> handle_letter()
     |> generate_id()
   end
 
@@ -32,13 +31,6 @@ defmodule ElxTicTacToe.Player do
   defp generate_id(changeset) do
     case get_change(changeset, :id) do
       nil -> put_change(changeset, :id, Ecto.UUID.generate())
-      _ -> changeset
-    end
-  end
-
-  defp handle_letter(changeset) do
-    case get_change(changeset, :letter) do
-      nil -> put_change(changeset, :letter, :X)
       _ -> changeset
     end
   end

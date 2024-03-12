@@ -18,6 +18,7 @@ defmodule ElxTicTacToeWeb.Router do
     pipe_through :browser
 
     live "/", HomeLive
+    live "/play", GamePlayLive
   end
 
   # Other scopes may use custom stacks.

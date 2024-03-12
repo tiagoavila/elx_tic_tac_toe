@@ -36,21 +36,21 @@ defmodule ElxTicTacToe.GameStarter do
     |> apply_action(:create)
   end
 
-  defp set_game_type(changeset) do
+  def set_game_type(changeset) do
     case get_change(changeset, :game_code) do
       nil -> put_change(changeset, :type, :start)
       _ -> put_change(changeset, :type, :join)
     end
   end
 
-  defp handle_game_code(changeset) do
+  def handle_game_code(changeset) do
     with true <- changeset.valid?(),
-         :start <- get_change(changeset, :type),
+         :start <- get_field(changeset, :type),
          nil <- get_change(changeset, :game_code) do
-          case generate_game_code() do
-            {:ok, game_code} -> put_change(changeset, :game_code, game_code)
-            {:error, reason} -> add_error(changeset, :game_code, reason)
-          end
+      case generate_game_code() do
+        {:ok, game_code} -> put_change(changeset, :game_code, game_code)
+        {:error, reason} -> add_error(changeset, :game_code, reason)
+      end
     else
       _ -> changeset
     end
@@ -59,18 +59,16 @@ defmodule ElxTicTacToe.GameStarter do
   @doc """
   Generates a unique game code.
   """
-  defp generate_game_code() do
-    :rand.seed(:os.system_time(:millisecond))
-    alphabet = ~c"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  def generate_game_code() do
+    alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" |> String.graphemes()
 
-    1..3
-    |> Enum.find(fn _ ->
-      game_code = Enum.map_join(1..4, fn _ -> Enum.random(alphabet) end)
+    codes =
+      1..3
+      |> Enum.map(fn _ -> Enum.map_join(1..4, fn _ -> Enum.random(alphabet) end) end)
 
-      case GameServer.server_running?(game_code) do
-        true -> {:error, "Didn't find unused code, try again later"}
-        _ -> {:ok, game_code}
-      end
-    end)
+    case Enum.find(codes, fn code -> !GameServer.server_running?(code) end) do
+      nil -> {:error, "Didn't find unused code, try again later"}
+      code -> {:ok, code}
+    end
   end
 end

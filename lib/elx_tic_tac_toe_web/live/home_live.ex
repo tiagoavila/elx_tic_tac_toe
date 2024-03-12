@@ -20,10 +20,8 @@ defmodule ElxTicTacToeWeb.HomeLive do
     with {:ok, game} <- GameStarter.create(params),
          {:ok, player1} <- Player.create(params),
          {:ok, :started, _} <- GameServer.start_or_join_game(game.game_code, player1) do
-      {:noreply,
-       redirect(socket,
-         to: Routes.game_play_path(socket, :show, game.game_code, player1.player_name)
-       )}
+      IO.puts("Game started #{game.game_code} - player #{player1.id}")
+      {:noreply, redirect(socket, to: ~p"/play?game=#{game.game_code}&player=#{player1.id}")}
     else
       {:error, changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
