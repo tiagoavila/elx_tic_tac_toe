@@ -11,8 +11,14 @@ defmodule ElxTicTacToe.Player do
   @primary_key {:id, :binary_id, autogenerate: true}
   embedded_schema do
     field(:player_name, :string)
-    field(:letter, Ecto.Enum, values: [:X, :O], default: :X)
+    field(:letter, Ecto.Enum, values: [:X, :O])
   end
+
+  @type t :: %__MODULE__{
+          id: String.t(),
+          player_name: String.t(),
+          letter: :X | :O
+        }
 
   def changeset(params \\ %{}) do
     %Player{}

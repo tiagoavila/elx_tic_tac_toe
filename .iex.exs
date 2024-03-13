@@ -1,1 +1,1 @@
-alias ElxTicTacToe.GameServer
+alias ElxTicTacToe.{GameServer, Player}

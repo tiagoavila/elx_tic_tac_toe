@@ -73,6 +73,7 @@ defmodule ElxTicTacToe.GameServer do
 
   """
   def via_tuple(game_code) do
+    game_code = String.upcase(game_code)
     {:via, Horde.Registry, {ElxTicTacToe.GameRegistry, game_code}}
   end
 
@@ -115,9 +116,9 @@ defmodule ElxTicTacToe.GameServer do
            ElxTicTacToe.DistributedSupervisor,
            {GameServer, [game_code: game_code, player: player]}
          ) do
-      {:ok, pid} ->
+      {:ok, _pid} ->
         Logger.info("Started game server #{inspect(game_code)}")
-        {:ok, :started, pid}
+        {:ok, :started}
 
       :ignore ->
         Logger.info("Game server #{inspect(game_code)} already running. Joining")

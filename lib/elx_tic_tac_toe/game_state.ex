@@ -3,6 +3,8 @@ defmodule ElxTicTacToe.GameState do
   This module is responsible for managing the state of a game session in the ElxTicTacToe application.
   """
 
+  alias ElxTicTacToe.Player
+
   defstruct code: nil,
             player1: nil,
             player2: nil,
@@ -16,8 +18,8 @@ defmodule ElxTicTacToe.GameState do
 
   @type t :: %__MODULE__{
           code: String.t(),
-          player1: String.t(),
-          player2: String.t(),
+          player1: Player.t(),
+          player2: Player.t(),
           current_player: String.t(),
           status: :not_started | :in_progress | :finished,
           board: %{
@@ -26,6 +28,7 @@ defmodule ElxTicTacToe.GameState do
         }
 
   def new(code, player1) do
+    player1 = %Player{player1 | letter: :X}
     %__MODULE__{code: code, player1: player1}
   end
 
@@ -38,6 +41,7 @@ defmodule ElxTicTacToe.GameState do
   end
 
   def join(%__MODULE__{player1: player1, player2: nil} = state, player2) do
-    %__MODULE__{state | player2: player2, current_player: player1, status: :in_progress}
+    player2 = %Player{player2 | letter: :O}
+    %__MODULE__{state | player2: player2, current_player: player1.id, status: :in_progress}
   end
 end

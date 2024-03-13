@@ -18,10 +18,10 @@ defmodule ElxTicTacToeWeb.HomeLive do
 
   def handle_event("submit_game", %{"game_starter" => params}, socket) do
     with {:ok, game} <- GameStarter.create(params),
-         {:ok, player1} <- Player.create(params),
-         {:ok, :started, _} <- GameServer.start_or_join_game(game.game_code, player1) do
-      IO.puts("Game started #{game.game_code} - player #{player1.id}")
-      {:noreply, redirect(socket, to: ~p"/play?game=#{game.game_code}&player=#{player1.id}")}
+         {:ok, player} <- Player.create(params),
+         {:ok, _} <- GameServer.start_or_join_game(game.game_code, player) do
+      IO.puts("Game create #{game.game_code} - player #{player.id}")
+      {:noreply, push_navigate(socket, to: ~p"/play?game=#{game.game_code}&player=#{player.id}")}
     else
       {:error, changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
