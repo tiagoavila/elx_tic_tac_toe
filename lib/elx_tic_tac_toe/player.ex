@@ -10,21 +10,21 @@ defmodule ElxTicTacToe.Player do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   embedded_schema do
-    field(:player_name, :string)
+    field(:name, :string)
     field(:letter, Ecto.Enum, values: [:X, :O])
   end
 
   @type t :: %__MODULE__{
           id: String.t(),
-          player_name: String.t(),
+          name: String.t(),
           letter: :X | :O
         }
 
   def changeset(params \\ %{}) do
     %Player{}
-    |> cast(params, [:player_name, :letter])
-    |> validate_required([:player_name])
-    |> validate_length(:player_name, max: 15)
+    |> cast(params, [:name, :letter])
+    |> validate_required([:name])
+    |> validate_length(:name, max: 15)
     |> generate_id()
   end
 

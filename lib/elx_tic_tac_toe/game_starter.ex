@@ -6,22 +6,22 @@ defmodule ElxTicTacToe.GameStarter do
   alias ElxTicTacToe.GameServer
 
   embedded_schema do
-    field(:player_name, :string)
+    field(:name, :string)
     field(:game_code, :string)
     field(:type, Ecto.Enum, values: [:start, :join], default: :start)
   end
 
   def starting_changeset(params \\ %{}) do
     %GameStarter{}
-    |> cast(params, [:player_name, :game_code])
-    |> validate_required([:player_name])
+    |> cast(params, [:name, :game_code])
+    |> validate_required([:name])
   end
 
   def creation_changeset(params \\ %{}) do
     %GameStarter{}
-    |> cast(params, [:player_name, :game_code])
-    |> validate_required([:player_name])
-    |> validate_length(:player_name, max: 15)
+    |> cast(params, [:name, :game_code])
+    |> validate_required([:name])
+    |> validate_length(:name, max: 15)
     |> set_game_type()
     |> handle_game_code()
   end

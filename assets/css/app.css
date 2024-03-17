@@ -3,3 +3,66 @@
 @import "tailwindcss/utilities";
 
 /* This file is for your main application CSS */
+#players {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+
+.player {
+    font-size: 24px;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px; /* Adding border radius */
+}
+
+.player.symbol {
+    font-weight: bold;
+    font-size: 30px; /* Larger font size for the symbol */
+    color: red; /* Different color for the letter */
+    margin-right: 5px;
+}
+
+.player.active {
+    color: white;
+}
+
+.player.is-current-turn {
+    background-color: green; /* Changed to green for the active player */
+}
+
+.player.is-not-current-turn {
+    background-color: gray; /* Changed to red for the inactive player */
+}
+
+#tic-tac-toe-board {
+    width: 600px;
+    height: 600px;
+    border-collapse: collapse;
+    margin: 20px auto;
+}
+
+#tic-tac-toe-board td {
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#tic-tac-toe-board.tic-tac-toe-board-active td:hover {
+    cursor: pointer;
+}
+
+#tic-tac-toe-board.tic-tac-toe-board-not-active td:hover {
+    cursor: not-allowed;
+}
+
+#tic-tac-toe-board tr:not(:first-child) td {
+    border-top: 3px solid black;
+}
+
+#tic-tac-toe-board td:not(:first-child) {
+    border-left: 3px solid black;
+}

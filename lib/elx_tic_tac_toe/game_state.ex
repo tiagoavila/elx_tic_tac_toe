@@ -8,7 +8,7 @@ defmodule ElxTicTacToe.GameState do
   defstruct code: nil,
             player1: nil,
             player2: nil,
-            current_player: nil,
+            active_player: nil,
             status: :not_started,
             board: %{
               1 => nil, 2 => nil, 3 => nil,
@@ -20,7 +20,7 @@ defmodule ElxTicTacToe.GameState do
           code: String.t(),
           player1: Player.t(),
           player2: Player.t(),
-          current_player: String.t(),
+          active_player: String.t(),
           status: :not_started | :in_progress | :finished,
           board: %{
             integer() => nil | :X | :O
@@ -42,6 +42,6 @@ defmodule ElxTicTacToe.GameState do
 
   def join(%__MODULE__{player1: player1, player2: nil} = state, player2) do
     player2 = %Player{player2 | letter: :O}
-    %__MODULE__{state | player2: player2, current_player: player1.id, status: :in_progress}
+    %__MODULE__{state | player2: player2, active_player: player1.id, status: :in_progress}
   end
 end

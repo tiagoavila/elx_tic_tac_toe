@@ -1,8 +1,50 @@
 <h1 class="mt-2 flex items-center text-lg font-semibold leading-6">
-  You are about to play Tic Tac Tow Game!
+  Elixir Tic Tac Tow Game!
 </h1>
 
 <div class="bt mt-10">
-  Your game code: <%=@game_code%>
-  Status: <%=@game.status%>
+  <%= if @game.status == :in_progress do %>
+    <div id="players">
+        <div id="player1" 
+          class={"player #{get_current_player_class(@player_id, @game.player1.id, @game)}"}>
+            <span class="symbol">X</span>
+            <span class="name"><%= @game.player1.name %></span>
+        </div>
+        <div id="player2" 
+          class={"player #{get_current_player_class(@player_id, @game.player2.id, @game)}"}>
+            <span class="symbol">O</span>
+            <span class="name"><%= @game.player2.name %></span>
+        </div>
+    </div>
+
+    <table id="tic-tac-toe-board" class={get_hover_class(@player_id, @game)}>
+      <tr>
+        <td phx-click={send_move(@player_id, @game_code, 1)}></td>
+        <td phx-click={send_move(@player_id, @game_code, 2)}></td>
+        <td phx-click={send_move(@player_id, @game_code, 3)}></td>
+      </tr>
+      
+      <tr>
+        <td phx-click={send_move(@player_id, @game_code, 4)}></td>
+        <td phx-click={send_move(@player_id, @game_code, 5)}></td>
+        <td phx-click={send_move(@player_id, @game_code, 6)}></td>
+      </tr>
+      
+      <tr>
+        <td phx-click={send_move(@player_id, @game_code, 7)}></td>
+        <td phx-click={send_move(@player_id, @game_code, 8)}></td>
+        <td phx-click={send_move(@player_id, @game_code, 9)}></td>
+      </tr>
+    </table>
+  <% else %>
+    <%= if @game.status == :not_started do %>
+      <p>Your game code is: <b><%= @game_code %></b>
+      <br/>Send the code to the person is going to play with you.</p>
+      
+      <p>Waiting for the other player to join the game</p>
+    <% else %>
+      <p>Game over</p>
+       <%!-- <p><%= @game.winner %> wins!</p> --%>
+    <% end %>
+  <% end %>
 </div>
