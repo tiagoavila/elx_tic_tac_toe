@@ -6,14 +6,14 @@ defmodule ElxTicTacToeWeb.Layouts.GameComponents do
 
   def get_current_player_class(current_player, player_id, game) do
     cond do
-     player_id != game.active_player -> ""
-     current_player == game.active_player -> "is-current-turn"
+     player_id != game.active_player_id -> ""
+     current_player == game.active_player_id -> "is-current-turn"
      true -> "is-not-current-turn"
     end
   end
 
   def get_hover_class(current_player, game) do
-    if current_player == game.active_player, do: "tic-tac-toe-board-active", else: "tic-tac-toe-board-not-active"
+    if current_player == game.active_player_id, do: "tic-tac-toe-board-active", else: "tic-tac-toe-board-not-active"
   end
 
   @spec send_move(String.t(), String.t(), integer()) :: no_return

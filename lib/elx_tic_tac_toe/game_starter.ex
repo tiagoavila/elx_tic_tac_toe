@@ -24,6 +24,7 @@ defmodule ElxTicTacToe.GameStarter do
     |> validate_length(:name, max: 15)
     |> set_game_type()
     |> handle_game_code()
+    |> ensure_game_code_uppercase()
   end
 
   @spec create(
@@ -69,6 +70,13 @@ defmodule ElxTicTacToe.GameStarter do
     case Enum.find(codes, fn code -> !GameServer.server_running?(code) end) do
       nil -> {:error, "Didn't find unused code, try again later"}
       code -> {:ok, code}
+    end
+  end
+
+  defp ensure_game_code_uppercase(changeset) do
+    case get_change(changeset, :game_code) do
+      nil -> changeset
+      game_code -> put_change(changeset, :game_code, String.upcase(game_code))
     end
   end
 end

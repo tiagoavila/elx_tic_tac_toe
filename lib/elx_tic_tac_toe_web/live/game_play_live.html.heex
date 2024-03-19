@@ -43,8 +43,17 @@
       
       <p>Waiting for the other player to join the game</p>
     <% else %>
-      <p>Game over</p>
-       <%!-- <p><%= @game.winner %> wins!</p> --%>
+      <%= if @game.status == :finished_with_draw do %>
+        <p>It's a draw!</p>
+        <button phx-click={JS.push("reset_game", value: %{game_code: @game_code})}>Play again</button>
+      <% else %>
+        <%= if @game.winner.id == @player_id do %>
+          <p>You win!</p>
+          <button phx-click={JS.push("reset_game", value: %{game_code: @game_code})}>Play again</button>
+        <% else %>
+          <p>You lose!</p>
+        <% end %>
+      <% end %>
     <% end %>
   <% end %>
 </div>

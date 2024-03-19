@@ -142,6 +142,10 @@ defmodule ElxTicTacToe.GameServer do
     GenServer.call(via_tuple(game_code), {:move, player_id, square})
   end
 
+  def reset_game(game_code) do
+    GenServer.call(via_tuple(game_code), :reset_game)
+  end
+
   ##########################################################################################
 
   # Server
@@ -178,6 +182,12 @@ defmodule ElxTicTacToe.GameServer do
       {:error, error_message} -> {:reply, {:error, error_message}, state}
       new_state -> {:reply, {:ok, new_state}, new_state}
     end
+  end
+
+  @impl true
+  def handle_call(:reset_game, _from, state) do
+    new_state = GameState.reset_game(state)
+    {:reply, {:ok, new_state}, new_state}
   end
 
   def server_running?(game_code) do

@@ -1,8 +1,11 @@
 defmodule ElxTicTacToeWeb.HomeLive do
+  @moduledoc """
+  This module is responsible for managing the home page in the ElxTicTacToe application.
+  """
   use ElxTicTacToeWeb, :live_view
 
   alias ElxTicTacToe.{GameStarter, Player, GameServer}
-  alias Phoenix.PubSub
+  alias ElxTicTacToeWeb.Helpers.PubSubHelper, as: PubSubHelper
 
   def mount(_params, _session, socket) do
     {:ok, socket |> assign(:changeset, GameStarter.starting_changeset())}
@@ -24,12 +27,7 @@ defmodule ElxTicTacToeWeb.HomeLive do
       IO.puts("Game create #{game.game_code} - player #{player.id}")
 
       if game_event == :joined,
-        do:
-          PubSub.broadcast(
-            ElxTicTacToe.PubSub,
-            "game-#{game.game_code}",
-            :game_state_updated
-          )
+        do: PubSubHelper.broadcast_game_state(game.game_code)
 
       {:noreply, push_navigate(socket, to: ~p"/play?game=#{game.game_code}&player=#{player.id}")}
     else
