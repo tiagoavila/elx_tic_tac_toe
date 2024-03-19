@@ -138,6 +138,10 @@ defmodule ElxTicTacToe.GameServer do
     GenServer.call(via_tuple(game_code), {:join_game, player})
   end
 
+  def send_move(game_code, player_id, square) do
+    GenServer.call(via_tuple(game_code), {:move, player_id, square})
+  end
+
   ##########################################################################################
 
   # Server
@@ -165,6 +169,14 @@ defmodule ElxTicTacToe.GameServer do
       end
     else
       {:reply, {:error, "Game not started"}, state}
+    end
+  end
+
+  @impl true
+  def handle_call({:move, player_id, square}, _from, state) do
+    case GameState.move(state, player_id, square) do
+      {:error, error_message} -> {:reply, {:error, error_message}, state}
+      new_state -> {:reply, {:ok, new_state}, new_state}
     end
   end
 

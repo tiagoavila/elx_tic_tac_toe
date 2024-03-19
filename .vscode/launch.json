@@ -24,6 +24,22 @@
                 "test/**/test_helper.exs",
                 "test/**/*_test.exs"
             ]
+        },
+        {
+            "type": "mix_task",
+            "name": "mix test file",
+            "request": "launch",
+            "task": "test",
+            "taskArgs": [
+                "test\\game_state_test.exs",
+                "--trace"
+            ],
+            "startApps": true,
+            "projectDir": "${workspaceRoot}",
+            "requireFiles": [
+                "test/**/test_helper.exs",
+                "test/**/*_test.exs"
+            ]
         }
     ]
 }

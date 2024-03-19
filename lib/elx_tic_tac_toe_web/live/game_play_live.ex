@@ -26,12 +26,18 @@ defmodule ElxTicTacToeWeb.GamePlayLive do
       ) do
     IO.puts("Received move on square #{square} from player #{current_player}")
 
-    game_state = GameServer.get_current_state(socket.assigns.game_code)
+    case GameServer.send_move(game_code, current_player, square) do
+      {:ok, new_state} ->
+        PubSub.broadcast(
+          ElxTicTacToe.PubSub,
+          "game-#{game_code}",
+          :game_state_updated
+        )
 
-    if current_player == game_state.active_player do
-      {:noreply, put_flash(socket, :info, "Funcionou")}
-    else
-      {:noreply, put_flash(socket, :error, "Não é a sua vez")}
+        {:noreply, assign(socket, game: new_state)}
+
+      {:error, reason} ->
+        {:noreply, put_flash(socket, :error, reason)}
     end
   end
 end

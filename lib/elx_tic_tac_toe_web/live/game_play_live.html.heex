@@ -19,21 +19,21 @@
 
     <table id="tic-tac-toe-board" class={get_hover_class(@player_id, @game)}>
       <tr>
-        <td phx-click={send_move(@player_id, @game_code, 1)}></td>
-        <td phx-click={send_move(@player_id, @game_code, 2)}></td>
-        <td phx-click={send_move(@player_id, @game_code, 3)}></td>
+        <td phx-click={send_move(@player_id, @game_code, 1)}><%= @game.board[1] %></td>
+        <td phx-click={send_move(@player_id, @game_code, 2)}><%= @game.board[2] %></td>
+        <td phx-click={send_move(@player_id, @game_code, 3)}><%= @game.board[3] %></td>
       </tr>
       
       <tr>
-        <td phx-click={send_move(@player_id, @game_code, 4)}></td>
-        <td phx-click={send_move(@player_id, @game_code, 5)}></td>
-        <td phx-click={send_move(@player_id, @game_code, 6)}></td>
+        <td phx-click={send_move(@player_id, @game_code, 4)}><%= @game.board[4] %></td>
+        <td phx-click={send_move(@player_id, @game_code, 5)}><%= @game.board[5] %></td>
+        <td phx-click={send_move(@player_id, @game_code, 6)}><%= @game.board[6] %></td>
       </tr>
       
       <tr>
-        <td phx-click={send_move(@player_id, @game_code, 7)}></td>
-        <td phx-click={send_move(@player_id, @game_code, 8)}></td>
-        <td phx-click={send_move(@player_id, @game_code, 9)}></td>
+        <td phx-click={send_move(@player_id, @game_code, 7)}><%= @game.board[7] %></td>
+        <td phx-click={send_move(@player_id, @game_code, 8)}><%= @game.board[8] %></td>
+        <td phx-click={send_move(@player_id, @game_code, 9)}><%= @game.board[9] %></td>
       </tr>
     </table>
   <% else %>

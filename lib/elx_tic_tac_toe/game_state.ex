@@ -11,9 +11,15 @@ defmodule ElxTicTacToe.GameState do
             active_player: nil,
             status: :not_started,
             board: %{
-              1 => nil, 2 => nil, 3 => nil,
-              4 => nil, 5 => nil, 6 => nil,
-              7 => nil, 8 => nil, 9 => nil
+              1 => nil,
+              2 => nil,
+              3 => nil,
+              4 => nil,
+              5 => nil,
+              6 => nil,
+              7 => nil,
+              8 => nil,
+              9 => nil
             }
 
   @type t :: %__MODULE__{
@@ -36,12 +42,49 @@ defmodule ElxTicTacToe.GameState do
     {:error, "Can only join a game with a player"}
   end
 
-  def join(%__MODULE__{player1: player1, player2: player2}, _) when player1 != nil and player2 != nil do
+  def join(%__MODULE__{player1: player1, player2: player2}, _)
+      when player1 != nil and player2 != nil do
     {:error, "Only 2 players allowed"}
   end
 
   def join(%__MODULE__{player1: player1, player2: nil} = state, player2) do
     player2 = %Player{player2 | letter: :O}
     %__MODULE__{state | player2: player2, active_player: player1.id, status: :in_progress}
+  end
+
+  @spec move(ElxTicTacToe.GameState.t(), String.t(), any()) ::
+          {:error, <<_::104, _::_*24>>} | ElxTicTacToe.GameState.t()
+  def move(%__MODULE__{board: board, active_player: active_player} = state, player_id, square) do
+    with {:ok, player} <- get_player_by_id(state, player_id),
+         :ok <- current_player_is_active?(state, player_id),
+         :square_is_empty <- square_is_empty?(state, square) do
+      letter = player.letter |> Atom.to_string()
+      new_board = Map.put(board, square, letter)
+
+      next_player =
+        if active_player == state.player1.id, do: state.player2.id, else: state.player1.id
+
+      %__MODULE__{state | board: new_board, active_player: next_player}
+    else
+      :not_your_turn -> {:error, "Not your turn"}
+      :square_is_not_empty -> {:error, "Square is not empty"}
+      :player_not_found -> {:error, "Player not found"}
+    end
+  end
+
+  defp current_player_is_active?(%__MODULE__{active_player: active_player}, player_id) do
+    if active_player == player_id, do: :ok, else: :not_your_turn
+  end
+
+  defp square_is_empty?(%__MODULE__{board: board}, square) do
+    if Map.get(board, square) == nil, do: :square_is_empty, else: :square_is_not_empty
+  end
+
+  defp get_player_by_id(%__MODULE__{player1: player1, player2: player2}, player_id) do
+    cond do
+      player_id == player1.id -> {:ok, player1}
+      player_id == player2.id -> {:ok, player2}
+      true -> :player_not_found
+    end
   end
 end
