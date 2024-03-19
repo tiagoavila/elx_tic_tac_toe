@@ -87,4 +87,30 @@ defmodule ElxTicTacToe.GameState do
       true -> :player_not_found
     end
   end
+
+  def check_winner(%__MODULE__{board: board}) do
+    winning_combinations = [
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+      [1, 4, 7],
+      [2, 5, 8],
+      [3, 6, 9],
+      [1, 5, 9],
+      [3, 5, 7]
+    ]
+
+    Enum.any?(winning_combinations, fn [a, b, c] ->
+      same?([board[a], board[b], board[c]])
+    end)
+  end
+
+  defp same?([h | t]) when not is_nil(h) do
+    Enum.all?(t, &(&1 == h))
+  end
+  defp same?(_), do: false
+
+  def is_board_full?(%__MODULE__{board: board}) do
+    Enum.all?(Map.values(board), &(&1 != nil))
+  end
 end
