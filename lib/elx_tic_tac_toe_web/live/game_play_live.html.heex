@@ -5,53 +5,77 @@
 <div class="bt mt-10">
   <%= if @game.status == :in_progress do %>
     <div id="players">
-        <div id="player1" 
-          class={"player #{get_current_player_class(@player_id, @game.player1.id, @game)}"}>
-            <span class="symbol">X</span>
-            <span class="name"><%= @game.player1.name %></span>
-        </div>
-        <div id="player2" 
-          class={"player #{get_current_player_class(@player_id, @game.player2.id, @game)}"}>
-            <span class="symbol">O</span>
-            <span class="name"><%= @game.player2.name %></span>
-        </div>
+      <div
+        id="player1"
+        class={"player #{get_current_player_class(@player_id, @game.player1.id, @game)}"}
+      >
+        <span class="symbol">X</span> <span class="name"><%= @game.player1.name %></span>
+      </div>
+      
+      <div
+        id="player2"
+        class={"player #{get_current_player_class(@player_id, @game.player2.id, @game)}"}
+      >
+        <span class="symbol">O</span> <span class="name"><%= @game.player2.name %></span>
+      </div>
     </div>
-
+    
     <table id="tic-tac-toe-board" class={get_hover_class(@player_id, @game)}>
       <tr>
         <td phx-click={send_move(@player_id, @game_code, 1)}><%= @game.board[1] %></td>
+        
         <td phx-click={send_move(@player_id, @game_code, 2)}><%= @game.board[2] %></td>
+        
         <td phx-click={send_move(@player_id, @game_code, 3)}><%= @game.board[3] %></td>
       </tr>
       
       <tr>
         <td phx-click={send_move(@player_id, @game_code, 4)}><%= @game.board[4] %></td>
+        
         <td phx-click={send_move(@player_id, @game_code, 5)}><%= @game.board[5] %></td>
+        
         <td phx-click={send_move(@player_id, @game_code, 6)}><%= @game.board[6] %></td>
       </tr>
       
       <tr>
         <td phx-click={send_move(@player_id, @game_code, 7)}><%= @game.board[7] %></td>
+        
         <td phx-click={send_move(@player_id, @game_code, 8)}><%= @game.board[8] %></td>
+        
         <td phx-click={send_move(@player_id, @game_code, 9)}><%= @game.board[9] %></td>
       </tr>
     </table>
   <% else %>
     <%= if @game.status == :not_started do %>
-      <p>Your game code is: <b><%= @game_code %></b>
-      <br/>Send the code to the person is going to play with you.</p>
-      
-      <p>Waiting for the other player to join the game</p>
+      <div class="p-4">
+        <p class="text-lg font-semibold text-gray-700">
+          Your game code is:
+          <span class="text-lg font-bold text-blue-500"><%= @game_code %></span>
+          <br />Send the code to the person who is going to play with you.
+        </p>
+        
+        <p class="mt-4 text-md text-gray-600">
+          Waiting for the other player to join the game
+        </p>
+      </div>
     <% else %>
       <%= if @game.status == :finished_with_draw do %>
-        <p>It's a draw!</p>
-        <button phx-click={JS.push("reset_game", value: %{game_code: @game_code})}>Play again</button>
+        <div class="text-center p-4">
+          <p class="text-lg font-semibold text-gray-700">It's a draw!</p>
+          
+          <.reset_game_button game_code={@game_code} />
+        </div>
       <% else %>
         <%= if @game.winner.id == @player_id do %>
-          <p>You win!</p>
-          <button phx-click={JS.push("reset_game", value: %{game_code: @game_code})}>Play again</button>
+          <div class="text-center p-4">
+            <p class="text-lg font-semibold text-gray-700">You win!</p>
+            
+            <.reset_game_button game_code={@game_code} />
+          </div>
         <% else %>
-          <p>You lose!</p>
+          <div class="text-center p-4">
+            <p class="text-lg font-semibold text-gray-700">You lose!</p>
+          </div>
         <% end %>
       <% end %>
     <% end %>
