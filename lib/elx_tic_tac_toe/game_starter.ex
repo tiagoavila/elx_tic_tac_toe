@@ -88,14 +88,16 @@ defmodule ElxTicTacToe.GameStarter do
   end
 
   defp ensure_there_is_a_game_running(changeset) do
-    case get_change(changeset, :game_code) do
-      nil -> changeset
-      game_code ->
-        if GameServer.server_running?(game_code) do
-          changeset
-        else
-          add_error(changeset, :game_code, "There is no game running with this code")
-        end
+    with true <- changeset.valid?(),
+         :join <- get_field(changeset, :type),
+         game_code <- get_change(changeset, :game_code) do
+      if GameServer.server_running?(game_code) do
+        changeset
+      else
+        add_error(changeset, :game_code, "There is no game running with this code")
+      end
+    else
+      _ -> changeset
     end
   end
 end
