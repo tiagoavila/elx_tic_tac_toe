@@ -1,4 +1,8 @@
 defmodule ElxTicTacToe.GameStarter do
+  @moduledoc """
+  This module is responsible for managing the game starter in the ElxTicTacToe application.
+  """
+
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -15,6 +19,8 @@ defmodule ElxTicTacToe.GameStarter do
     %GameStarter{}
     |> cast(params, [:name, :game_code])
     |> validate_required([:name])
+    |> validate_length(:name, max: 15)
+    |> validate_length(:game_code, is: 4)
   end
 
   def creation_changeset(params \\ %{}) do
@@ -25,6 +31,7 @@ defmodule ElxTicTacToe.GameStarter do
     |> set_game_type()
     |> handle_game_code()
     |> ensure_game_code_uppercase()
+    |> ensure_there_is_a_game_running()
   end
 
   @spec create(
@@ -77,6 +84,18 @@ defmodule ElxTicTacToe.GameStarter do
     case get_change(changeset, :game_code) do
       nil -> changeset
       game_code -> put_change(changeset, :game_code, String.upcase(game_code))
+    end
+  end
+
+  defp ensure_there_is_a_game_running(changeset) do
+    case get_change(changeset, :game_code) do
+      nil -> changeset
+      game_code ->
+        if GameServer.server_running?(game_code) do
+          changeset
+        else
+          add_error(changeset, :game_code, "There is no game running with this code")
+        end
     end
   end
 end

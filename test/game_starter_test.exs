@@ -1,4 +1,8 @@
 defmodule ElxTicTacToe.GameStarterTest do
+  @moduledoc """
+  This module is responsible for testing the game starter in the ElxTicTacToe application.
+  """
+
   use ExUnit.Case
   alias ElxTicTacToe.GameStarter
 
