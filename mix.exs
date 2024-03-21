@@ -40,7 +40,7 @@ defmodule ElxTicTacToe.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.7.7"},
+      {:phoenix, "~> 1.7.11"},
       {:phoenix_html, "~> 3.3"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.19.0"},
