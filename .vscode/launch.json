@@ -31,7 +31,7 @@
             "request": "launch",
             "task": "test",
             "taskArgs": [
-                "test\\game_state_test.exs",
+                "test\\game_starter_test.exs",
                 "--trace"
             ],
             "startApps": true,
