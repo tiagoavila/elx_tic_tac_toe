@@ -3,14 +3,13 @@
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'elx-tic-tac-toe'
+app = 'elixir-tic-tac-toe'
 primary_region = 'gru'
 kill_signal = 'SIGTERM'
 
 [build]
 
 [deploy]
-  release_command = '/app/bin/migrate'
 
 [env]
   PHX_HOST = 'elx-tic-tac-toe.fly.dev'
