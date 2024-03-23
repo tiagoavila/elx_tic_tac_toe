@@ -9,6 +9,7 @@ import Config
 config :elx_tic_tac_toe, ElxTicTacToeWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
+  # REMINDER to set the port to first get the value from the PORT environment variable, and if it is not set, default to 4000. This will make the set PORT=4000 or PORT=4001 command work as expected.
   http: [ip: {127, 0, 0, 1}, port: System.get_env("PORT", "4000")],
   check_origin: false,
   code_reloader: true,
