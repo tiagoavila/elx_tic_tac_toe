@@ -9,7 +9,7 @@ import Config
 config :elx_tic_tac_toe, ElxTicTacToeWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: 4000],
+  http: [ip: {127, 0, 0, 1}, port: System.get_env("PORT", "4000")],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
@@ -67,3 +67,13 @@ config :phoenix, :plug_init_mode, :runtime
 
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
+
+config :libcluster,
+  debug: true,
+  topologies: [
+    local: [
+      # strategy: Cluster.Strategy.Gossip
+      strategy: Cluster.Strategy.Epmd,
+      config: [hosts: [:"a@127.0.0.1", :"b@127.0.0.1"]]
+    ]
+  ]

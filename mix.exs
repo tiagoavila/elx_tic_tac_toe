@@ -57,8 +57,9 @@ defmodule ElxTicTacToe.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:phoenix_ecto, "~> 4.0"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
-      {:horde, "~> 0.8.5"},
-      {:excoveralls, "~> 0.18", only: :test}
+      {:horde, "~> 0.9.0"},
+      {:excoveralls, "~> 0.18", only: :test},
+      {:libcluster, "~> 3.3"}
     ]
   end
 
