@@ -1,22 +1,40 @@
 # ElxTicTacToe
 
-To start your Phoenix server:
+To start your Phoenix server, follow these steps:
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+## Setup and Running Locally
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+1. **Install and Setup Dependencies**
+   ```bash
+   mix setup
+   ```
+2. **Start the Phoenix Endpoint**
+   You can start the Phoenix server using:
+   ```bash
+   mix phx.server
+   ```
+   Alternatively, to start inside IEx (Interactive Elixir), use:
+   ```bash
+   iex -S mix phx.server
+   ```
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+Now, you can visit [\`localhost:4000\`](http://localhost:4000) from your browser to see your Phoenix application in action.
 
-To run the application in multi nodes:
-In one prompt window:
-* set PORT=4000
-* iex --name a@127.0.0.1 --cookie asdf -S mix phx.server
+## Multi-node Setup
 
-In another prompt window:
-* set PORT=4001
-* iex --name b@127.0.0.1 --cookie asdf -S mix phx.server
+To run the application in multi nodes, you'll need to open two prompt windows and set them up as follows:
+
+**In the first prompt window:**
+```bash
+set PORT=4000
+iex --name a@127.0.0.1 --cookie asdf -S mix phx.server
+```
+
+**In the second prompt window:**
+```bash
+set PORT=4001
+iex --name b@127.0.0.1 --cookie asdf -S mix phx.server
+```
 
 ## Learn more
 
