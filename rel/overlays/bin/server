@@ -1,5 +1,3 @@
 #!/bin/sh
-set -eu
-
 cd -P -- "$(dirname -- "$0")"
 PHX_SERVER=true exec ./elx_tic_tac_toe start
