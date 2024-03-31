@@ -61,6 +61,7 @@ RUN mix compile
 COPY config/runtime.exs config/
 
 COPY rel rel
+RUN chmod a+x rel
 RUN mix release
 
 # start a new build stage so that the final image will only contain
@@ -86,7 +87,7 @@ ENV MIX_ENV="prod"
 
 # Only copy the final release from the build stage
 COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/elx_tic_tac_toe ./
-
+RUN chmod +x /app/bin/server
 USER nobody
 
 # If using an environment that doesn't automatically reap zombie processes, it is
